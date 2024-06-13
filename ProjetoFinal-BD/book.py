@@ -28,9 +28,9 @@ class Book:
     def find_book(self, book_id: str) -> dict:
         try:
             book = self.collection.find_one({"_id": ObjectId(book_id)})
-            if book:
-                print(f"Book: {book}")
-                return book
+
+            for key, value in book.items():
+                print(f"{key}: {value}")
             else:
                 print(f"Book with id {book_id} not found")
                 return None

@@ -1,7 +1,9 @@
 import pymongo
 
+
 class Database:
-    def __init__(self, database, collection):
+    def __init__(self, database, collection, name):
+        self.name = name
         self.connect(database, collection)
 
     def connect(self, database, collection):
@@ -13,14 +15,13 @@ class Database:
             )
             self.db = self.clusterConnection[database]
             self.collection = self.db[collection]
-            print("Conectado ao banco de dados")
+            print(f"Conectado à coleçao, {self.name}")
         except Exception as e:
             print(e)
 
     def resetDatabase(self):
         try:
-            # self.db.drop_collection(self.collection)
-            # self.collection.insert_many(dataset)
-            print("Banco de dados resetado")
+            self.db.drop_collection(self.collection)
+            print(f"Coleção {self.name} resetada com sucesso!")
         except Exception as e:
             print(e)

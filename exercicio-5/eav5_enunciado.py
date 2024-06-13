@@ -151,20 +151,16 @@ def test_questao_4():
 
 # Questão 5
 def questao_5(user_views, user_id):
-    # Registrar posts visualizados
     for user in user_views:
         redis_conn.delete(f"user:{user['usuario']}:views")
         if user['visualizado']:
             redis_conn.sadd(f"user:{user['usuario']}:views", *user['visualizado'])
     
-    # Recuperar posts visualizados pelo usuário
     viewed_posts_ids = redis_conn.smembers(f"user:{user_id}:views")
     
-    # Recuperar todos os posts
     post_ids = redis_conn.keys("post:*")
     posts = [redis_conn.hgetall(post_id) for post_id in post_ids]
     
-    # Filtrar posts que não foram visualizados pelo usuário
     not_viewed_posts = [post['conteudo'] for post in posts if post['id'] not in viewed_posts_ids]
     
     return not_viewed_posts
