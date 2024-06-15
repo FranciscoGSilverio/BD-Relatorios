@@ -1,3 +1,6 @@
+#Francisco Silvério - 270
+#Gabriel Costa - 193
+
 from database import Database
 from book import Book
 from author import Author
