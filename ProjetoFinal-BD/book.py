@@ -2,9 +2,10 @@
 from bson.objectid import ObjectId
 
 class Book:
-    def __init__(self, db):
+    def __init__(self, db, authorDB):
         self.db = db
         self.collection = db.collection
+        self.authorDB = authorDB
 
     def add_book(self, title: str, published_at: str, gender: str, pages: int, author_id: str) -> str:
         try:
@@ -19,6 +20,17 @@ class Book:
             )
 
             book_id = str(result.inserted_id)
+
+             # Update author's books list
+            author = self.authorDB.collection.find_one({"_id": ObjectId(author_id)})
+            if author:
+                books = author.get("books", "")
+                if book_id not in books:
+                    books = books + (', ' if books else '') + book_id
+                    self.authorDB.collection.update_one(
+                        {"_id": ObjectId(author_id)},
+                        {"$set": {"books": books}}
+                    )
             print(f"Book created: {title}, id: {book_id}")
             return book_id
         except Exception as error:

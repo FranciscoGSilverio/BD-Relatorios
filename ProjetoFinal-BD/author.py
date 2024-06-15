@@ -26,9 +26,9 @@ class Author:
     def find_author(self, author_id: str) -> dict:
         try:
             author = self.collection.find_one({"_id": ObjectId(author_id)})
-
-            for key, value in author.items():
-                print(f"{key}: {value}")
+            if author:
+                for key, value in author.items():
+                    print(f"{key}: {value}")
             else:
                 print(f"Author with id {author_id} not found")
                 return None

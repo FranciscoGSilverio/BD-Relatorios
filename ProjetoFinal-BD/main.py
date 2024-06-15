@@ -5,8 +5,9 @@ from author import Author
 bookDB = Database(database="library", collection="book", name="book")
 authorDB = Database(database="library", collection="author", name="author")
 
-book = Book(bookDB)
+book = Book(bookDB, authorDB)
 author = Author(authorDB)
+
 
 def main():
     bookDB.resetDatabase()
@@ -60,7 +61,7 @@ def main():
             pages = input("Páginas: ")
             author_id = input("Id do autor: ")
             book.add_book(title, publication_date, genre, pages, author_id)
-
+            
         elif option == '6':
             book_id = input("Id do livro: ")
             book.find_book(book_id)
@@ -84,5 +85,6 @@ def main():
             break
 
         print("")
+
 
 main()
